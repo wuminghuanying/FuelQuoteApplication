@@ -1,10 +1,20 @@
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CPM from './components/CPM/cpm.js';
 
 function App() {
   return (
-    <div className="App">
-       <h1>hello</h1>
-    </div>
+   
+      
+    <Router>
+      <Routes>
+
+        <Route  path="/cpm" element={<CPM/>} />
+
+      </Routes>
+
+    </Router>
+
   );
 }
 

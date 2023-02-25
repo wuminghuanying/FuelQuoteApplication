@@ -1,0 +1,17 @@
+.form{
+    margin-top: 100px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 50px;
+    border: 5px solid;
+    text-align: center;
+}
+
+.rInput{
+    align-items: center;
+}
+
+.submit{
+    margin-top: 10px;
+    font-size: larger;
+}

@@ -6,7 +6,7 @@ import FuelPrice from './components/FuelPrice/fuel';
 import LOGIN from './components/Login/login.js';
 import REGISTER from './components/Register/register.js';
 import HISTORY from './components/FuelQuoteHistory/history.js';
-
+import HOMEPAGE from './components/Homepage/HOMEPAGE';
 
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
       
     <Router>
       <Routes>
-
+        <Route path ="/" element={<HOMEPAGE/>}/>
         <Route  path="/fuelprice" element={<FuelPrice/>} />
         <Route  path="/cpm" element={<CPM/>} />
         <Route  path="/login" element={<LOGIN/>} />

@@ -1,7 +1,12 @@
 import express from "express";
+import cpmRoutes from "./routes/cpmRoutes.js";
 const app = express();
 
-app.listen(5500, () => {
-    console.log(`Server is running on port 5500`);
-    
-});
+app.use(express.json());
+
+app.use("/api", cpmRoutes);
+
+
+app.listen(5500, () => { });
+
+export default app;

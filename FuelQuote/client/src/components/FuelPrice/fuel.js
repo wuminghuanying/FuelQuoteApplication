@@ -11,6 +11,7 @@ const FuelPrice = () => {
                         placeholder="Enter a number"
                         id="gallon_requested"
                         className="rInput"
+                        min={0}
                         required
                     />
             </label><br/>
@@ -127,6 +128,7 @@ const FuelPrice = () => {
                         placeholder=""
                         id="suggested_price"
                         className="rInput"
+                        min={0}
                         required
                     />
             </label><br/>

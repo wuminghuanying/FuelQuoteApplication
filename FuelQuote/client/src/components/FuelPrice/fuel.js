@@ -7,9 +7,9 @@ const FuelPrice = () => {
         <div className="form">
             <label htmlFor="gallon_requested">Gallons Requested:
                 <input
-                        type="text"
-                        placeholder="Numeric"
-                        id="numeric"
+                        type="Number"
+                        placeholder="Enter a number"
+                        id="gallon_requested"
                         className="rInput"
                         maxLength="100"
                         required
@@ -19,7 +19,7 @@ const FuelPrice = () => {
                 <input
                         type="text"
                         placeholder="Delivery Address"
-                        id="Address1"
+                        id="address1"
                         className="rInput"
                         maxLength="100"
                         required
@@ -30,7 +30,7 @@ const FuelPrice = () => {
                 <input
                     type="text"
                     placeholder="Address 2"
-                    id="Adress2"
+                    id="address2"
                     className="rInput"
                     maxLength="100"
                     />
@@ -49,6 +49,7 @@ const FuelPrice = () => {
 
             <label htmlFor="State">State:
             <select name="state" required >
+                <option value="">Select a State</option>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>
                 <option value="AR">AR</option>
@@ -107,7 +108,7 @@ const FuelPrice = () => {
                 <input
                     type="text"
                     placeholder="zip code"
-                    id="zip_code"
+                    id="zipcode"
                     className="rInput"
                     minLength= "5"
                     maxLength="9"
@@ -123,9 +124,9 @@ const FuelPrice = () => {
             </label><br/>
             <label htmlFor="suggested price">Suggested Price:
                 <input
-                        type="text"
-                        placeholder="Numeric"
-                        id="numeric"
+                        type="Number"
+                        placeholder=""
+                        id="suggested_price"
                         className="rInput"
                         maxLength="100"
                         required

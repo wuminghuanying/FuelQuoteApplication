@@ -3,6 +3,6 @@ import { createFuelPrice } from "../controllers/fuelpriceControllers.js"
 
 const router  = express.Router()
 
-router.post('/create', createFuelPrice)
+router.post('/fuelprice', createFuelPrice)
 
 export default router

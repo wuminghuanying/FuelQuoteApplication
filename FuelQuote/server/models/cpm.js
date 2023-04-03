@@ -26,3 +26,4 @@ const cpmSchema = new mongoose.Schema({
     },
     
 })
+export default mongoose.model('cpmSchema', cpmSchema)

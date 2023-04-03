@@ -1,3 +1,5 @@
+import cpmSchema from "../models/cpm.js"
+
 export const createCPM = async (req, res) => {
     try{
         const{ name, address1, address2, city, state, zipcode } = req.body

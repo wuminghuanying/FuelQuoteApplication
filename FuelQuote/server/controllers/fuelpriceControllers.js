@@ -82,6 +82,12 @@ export const createFuelPrice = async (req, res) => {
         if (suggested_price < 0) {
             return res.status(400).json({ message: "Suggested price must be greater than 0" })
         }
+
+        const newFuel = new FuelSchema(req.body);
+        await newFuel.save();
+        res.status(200).send("Fuel price noted");
+        
+
                 
         res.status(200).json({ message: "Fuel Price created successfully" })
 

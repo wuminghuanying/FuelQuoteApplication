@@ -1,7 +1,39 @@
 import React from "react";
+import axios from "axios";
+import { useState } from "react";
+
 import "./cpm.css"
 
 const CPM = () => {
+
+    const [cpmInfo, setCpmInfo] = useState({
+        name: "",
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        zipcode: ""
+    });
+
+    const handleChange = (e) => {
+        setCpmInfo({
+            ...cpmInfo,
+            [e.target.id]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            console.log(cpmInfo);
+            const response = await axios.post("http://localhost:5500/api/create", cpmInfo);
+            console.log("in try");
+        } catch (error) {
+            console.log("in catch");
+            console.log(error);
+        }
+    };
+
 
     return (
         <div className="form">
@@ -9,8 +41,9 @@ const CPM = () => {
                 <input
                     type="text"
                     placeholder="Full Name"
-                    id="Full_Name"
+                    id="name"
                     className="rInput"
+                    onChange={handleChange}
                     maxLength="50"
                     required
                 />
@@ -20,8 +53,9 @@ const CPM = () => {
                 <input
                         type="text"
                         placeholder="Address 1"
-                        id="Address1"
+                        id="address1"
                         className="rInput"
+                        onChange={handleChange}
                         maxLength="100"
                         required
                     />
@@ -31,8 +65,9 @@ const CPM = () => {
                 <input
                     type="text"
                     placeholder="Adress 2"
-                    id="Adress2"
+                    id="address2"
                     className="rInput"
+                    onChange={handleChange}
                     maxLength="100"
                     />
             </label><br/>
@@ -43,13 +78,19 @@ const CPM = () => {
                     placeholder="City"
                     id="city"
                     className="rInput"
+                    onChange={handleChange}
                     maxLength="100"
                     required
                 />
             </label><br/>
 
             <label htmlFor="State">State:
-            <select name="state" required >
+            <select name="state"
+                required 
+                onChange={handleChange}
+                id="state"
+                >
+                <option value="">Select a State</option>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>
                 <option value="AR">AR</option>
@@ -108,15 +149,23 @@ const CPM = () => {
                 <input
                     type="text"
                     placeholder="zip code"
-                    id="zip_code"
+                    id="zipcode"
                     className="rInput"
+                    onChange={handleChange}
                     minLength= "5"
                     maxLength="9"
                     required
                 />
             </label><br/><br/>
+            <button
+                type="submit"
+                className="submit"
+                onClick={handleSubmit}
+                disabled={!(cpmInfo.name && cpmInfo.address1 && cpmInfo.city && cpmInfo.state && cpmInfo.zipcode)}>
+                Submit
+            </button>
 
-            <button className="submit">Submit</button>
+
                 
         </div>
     )

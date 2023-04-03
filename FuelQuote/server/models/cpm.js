@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 const cpmSchema = new mongoose.Schema({
     name: {
-        type: Number,
+        type: String,
         required: true,
     },
     address1: {

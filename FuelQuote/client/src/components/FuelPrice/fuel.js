@@ -1,10 +1,39 @@
 import React from "react";
-import "./fuel.js"
 import axios from 'axios'
+import { useState } from "react";
+
 
 const FuelPrice = () => {
 
+    const [fuelPrice, setFuelPrice] = useState({
+        gallon_requested: "",
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        date:"",
+        suggested_price: ""
+    });
 
+    const handleChange = (e) => {
+        setFuelPrice({
+            ...fuelPrice,
+            [e.target.id]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            console.log(fuelPrice);
+            const response = await axios.post("http://localhost:5500/api/fuelprice", fuelPrice);
+            console.log("in try");
+        } catch (error) {
+            console.log("in catch");
+            console.log(error);
+        }
+    };
 
     return (
         <div className="form">
@@ -14,6 +43,7 @@ const FuelPrice = () => {
                         placeholder="Enter a number"
                         id="gallon_requested"
                         className="rInput"
+                        onChange={handleChange}
                         min={0}
                         required
                     />
@@ -24,6 +54,7 @@ const FuelPrice = () => {
                         placeholder="Delivery Address"
                         id="address1"
                         className="rInput"
+                        onChange={handleChange}
                         maxLength="100"
                         required
                     />
@@ -34,6 +65,7 @@ const FuelPrice = () => {
                     type="text"
                     placeholder="Address 2"
                     id="address2"
+                    onChange={handleChange}
                     className="rInput"
                     maxLength="100"
                     />
@@ -44,6 +76,7 @@ const FuelPrice = () => {
                     type="text"
                     placeholder="City"
                     id="city"
+                    onChange={handleChange}
                     className="rInput"
                     maxLength="100"
                     required
@@ -51,7 +84,10 @@ const FuelPrice = () => {
             </label><br/>
 
             <label htmlFor="State">State:
-            <select name="state" required >
+            <select name="state" 
+                required 
+                onChange={handleChange}
+                id="state">
                 <option value="">Select a State</option>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>
@@ -113,30 +149,35 @@ const FuelPrice = () => {
                     placeholder="zip code"
                     id="zipcode"
                     className="rInput"
+                    onChange={handleChange}
                     minLength= "5"
                     maxLength="9"
                     required
                 />
             </label><br/>
-            <label htmlFor="date">Select a date:
+            {/* <label htmlFor="date">Select a date:
                 <input 
                         type="date" 
                         id="date"
+                        onChange={handleChange}
                         name="date"
                     />
-            </label><br/>
+            </label><br/> */}
             <label htmlFor="suggested price">Suggested Price:
                 <input
                         type="Number"
                         placeholder=""
                         id="suggested_price"
                         className="rInput"
+                        onChange={handleChange}
                         min={0}
                         required
                     />
             </label><br/>
 
-            <button className="calculate">
+            <button type="submit"
+                className="calculate"
+                onClick={handleSubmit}>
                 Calculate</button>
             
                 

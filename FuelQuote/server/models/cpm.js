@@ -1,7 +1,7 @@
 //Full_name, address1, address2, city, state, zipcode
 import mongoose from "mongoose";
 const cpmSchema = new mongoose.Schema({
-    Full_name: {
+    name: {
         type: Number,
         required: true,
     },

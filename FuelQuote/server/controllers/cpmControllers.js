@@ -70,6 +70,9 @@ export const createCPM = async (req, res) => {
         if (zipcode.length > 9 || zipcode.length < 5) {
             return res.status(400).json({ message: "Zipcode must be less than 9 characters and greater than 5 characters" })
         }
+
+        const newCpm = new cpmSchema(req.body);
+        await newCpm.save();
                 
         res.status(200).json({ message: "CPM created successfully" })
     } catch (error) {

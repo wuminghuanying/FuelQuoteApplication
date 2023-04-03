@@ -4,8 +4,15 @@ import fuelpriceRoutes from "./routes/fuelpriceRoutes.js";
 import RegisterRoutes from "./routes/RegisterRoutes.js";
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
+import cors from 'cors'
 
+dotenv.config();
+const app = express();
 
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    credentials: true,
+}));
 
 const connect= async () => {
     try {
@@ -14,9 +21,6 @@ const connect= async () => {
         throw error
     }
 };
-
-dotenv.config();
-const app = express();
 
 app.use(express.json());
 

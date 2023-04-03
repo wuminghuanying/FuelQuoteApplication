@@ -1,7 +1,10 @@
 import React from "react";
 import "./fuel.js"
+import axios from 'axios'
 
 const FuelPrice = () => {
+
+
 
     return (
         <div className="form">

@@ -85,9 +85,8 @@ export const createFuelPrice = async (req, res) => {
 
         const newFuel = new FuelSchema(req.body);
         await newFuel.save();
-        res.status(200).send("Fuel price noted");
-        
 
+        console.log(newFuel);
                 
         res.status(200).json({ message: "Fuel Price created successfully" })
 

@@ -1,9 +1,12 @@
 import React from "react";
 import axios from 'axios'
 import { useState } from "react";
+import {useNavigate} from 'react-router-dom';
 
 
 const FuelPrice = () => {
+
+    const navigate = useNavigate();
 
     const [fuelPrice, setFuelPrice] = useState({
         gallon_requested: 0,
@@ -13,7 +16,8 @@ const FuelPrice = () => {
         state: "",
         zipcode: "",
         date:"",
-        suggested_price: 0
+        suggested_price: 0,
+        user_id: "6447442350809b8ef0ccc90f",
     });
 
     const handleChange = (e) => {
@@ -36,7 +40,9 @@ const FuelPrice = () => {
             console.log(typeof fuelPrice.date);
             const response = await axios.post("http://localhost:5500/api/fuelprice", fuelPrice);
             console.log(response);
-            console.log("in try");
+            
+            navigate('/');
+            
         } catch (error) {
             console.log("in catch");
             console.log(error);

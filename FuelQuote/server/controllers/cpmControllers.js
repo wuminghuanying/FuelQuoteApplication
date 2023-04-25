@@ -105,6 +105,15 @@ export const getCPM = async (req, res) => {
     }
 }
 
+export const getCPMById = async (req, res) => {
+    try {
+        const cpm = await cpmSchema.findOne({ _id: req.params.id })
+        res.status(200).json(cpm)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
 
 
 

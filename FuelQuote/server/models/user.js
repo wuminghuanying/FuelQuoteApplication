@@ -12,6 +12,9 @@ const userSchema = new mongoose.Schema({
     cpm_id: {
         type: [mongoose.Schema.Types.ObjectId],
     },
+    fuelquote_id: {
+        type: [mongoose.Schema.Types.ObjectId],
+    },
 });
 
 export default mongoose.model('userSchema', userSchema)

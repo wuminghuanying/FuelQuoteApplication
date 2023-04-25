@@ -1,8 +1,9 @@
 import FuelSchema from "../models/fuelquote.js";
+import userSchema from "../models/user.js";
 
 export const createFuelPrice = async (req, res) => {
     try{
-        const{ gallon_requested, address1, address2, city, state, zipcode, date, suggested_price } = req.body
+        const{ gallon_requested, address1, address2, city, state, zipcode, date, suggested_price, user_id } = req.body
 
         console.log(req.body)
 
@@ -87,11 +88,16 @@ export const createFuelPrice = async (req, res) => {
         if (suggested_price < 0) {
             return res.status(400).json({ message: "Suggested price must be greater than 0" })
         }
+
+        delete req.body.user_id;
        
         const newFuel = new FuelSchema(req.body);
         await newFuel.save();
 
         console.log(newFuel)
+
+        const user = await userSchema.findOne({ _id: user_id })
+        await user.updateOne({ $push: { fuelquote_id: newFuel._id } })
         
         res.status(200).json({ message: "Fuel Price created successfully" })
         

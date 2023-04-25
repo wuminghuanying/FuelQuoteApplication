@@ -39,7 +39,7 @@ const Register = () => {
 
     return (
         <div className="form">
-            <label htmlFor="Username">Username
+            <label htmlFor="Username">Username: 
                 <input
                     type="text"
                     placeholder="Username"
@@ -51,9 +51,9 @@ const Register = () => {
                 />
             </label><br/>
 
-            <label htmlFor="Password">Password
+            <label htmlFor="Password">Password: 
                 <input
-                    type="text"
+                    type="password"
                     placeholder="Password"
                     id="Password"
                     className="rInput"

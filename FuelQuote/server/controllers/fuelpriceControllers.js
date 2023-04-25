@@ -100,3 +100,22 @@ export const createFuelPrice = async (req, res) => {
         res.status(400).json({ error })
     }
 }
+
+export const getFuelPrice = async (req, res) => {
+    try{
+        const fuelPrice = await FuelSchema.find();
+        res.status(200).json(fuelPrice)
+    } catch (error) {
+        res.status(404).json({ error })
+    }
+}
+
+export const getFuelPriceById = async (req, res) => {
+    try{
+        const fuelPrice = await FuelSchema.findById(req.params.id);
+        res.status(200).json(fuelPrice)
+    } catch (error) {
+        res.status(404).json({ error })
+    }
+}
+

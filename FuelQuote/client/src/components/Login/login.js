@@ -29,6 +29,9 @@ const Login = () => {
       if (response.status === 200) {
         navigate("/");
       }
+      else {
+        navigate("/cpm");
+      }
     } catch (error) {
       if (error.response.status === 400) {
         alert("Invalid username or password");
@@ -39,7 +42,7 @@ const Login = () => {
   return (
     <div className="form">
       <label htmlFor="Username">
-        Username
+        Username:
         <input
           type="text"
           placeholder="Username"
@@ -54,7 +57,7 @@ const Login = () => {
       <br />
 
       <label htmlFor="Password">
-        Password
+        Password:
         <input
           type="password"
           placeholder="Password"

@@ -1,38 +1,31 @@
-//Full_name, address1, address2, city, state, zipcode
 import mongoose from "mongoose";
 const cpmSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
     name: {
         type: String,
-        // required: true,
+        required: true,
     },
     address1: {
         type: String,
-        // required: true,
+        required: true,
     },
     address2: {
         type: String,
     },
     city: {
         type: String,
-        // required: true,
+        required: true,
     },
     state: {
         type: String,
-        // required: true
+        required: true
     },
     zipcode: {
         type: Number,
-        // required: true,
+        required: true,
     },
-    
+    // user_id: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true,
+    // },
 })
 export default mongoose.model('cpmSchema', cpmSchema)

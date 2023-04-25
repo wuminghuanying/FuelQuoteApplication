@@ -1,10 +1,13 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate} from 'react-router-dom';
 
 import "./cpm.css"
 
 const CPM = () => {
+
+    const navigate = useNavigate();
 
     const [cpmInfo, setCpmInfo] = useState({
         name: "",
@@ -12,7 +15,8 @@ const CPM = () => {
         address2: "",
         city: "",
         state: "",
-        zipcode: ""
+        zipcode: "",
+        user_id: "6447442350809b8ef0ccc90f",
     });
 
     const handleChange = (e) => {
@@ -27,7 +31,9 @@ const CPM = () => {
         try {
             console.log(cpmInfo);
             const response = await axios.post("http://localhost:5500/api/create", cpmInfo);
-            console.log("in try");
+            
+            navigate("/fuelprice");
+
         } catch (error) {
             console.log("in catch");
             console.log(error);

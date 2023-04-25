@@ -56,7 +56,7 @@ const FuelPrice = () => {
                         required
                     />
             </label><br/>
-            <label htmlFor="address1">Delivery Address:
+            <label htmlFor="address1">Delivery Address 1:
                 <input
                         type="text"
                         placeholder="Delivery Address"
@@ -185,7 +185,9 @@ const FuelPrice = () => {
 
             <button type="submit"
                 className="calculate"
-                onClick={handleSubmit}>
+                onClick={handleSubmit}
+                disabled={fuelPrice.gallon_requested === 0 || fuelPrice.address1 === "" || fuelPrice.city === "" || fuelPrice.state === "" || fuelPrice.zipcode === "" || fuelPrice.date === "" || fuelPrice.suggested_price === 0}
+                >
                 Calculate</button>
             
                 

@@ -1,8 +1,9 @@
 import cpmSchema from "../models/cpm.js"
+import userSchema from "../models/user.js"
 
 export const createCPM = async (req, res) => {
     try{
-        const{ name, address1, address2, city, state, zipcode } = req.body
+        const{name, address1, address2, city, state, zipcode, user_id } = req.body
 
         //check if name is a string
         if (typeof name !== "string") {
@@ -73,14 +74,37 @@ export const createCPM = async (req, res) => {
             return res.status(400).json({ message: "Zipcode must be less than 9 characters and greater than 5 characters" })
         }
         
-    console.log(req.body)
+    // console.log(req.body)
+    // remove user_id from req.body
+    delete req.body.user_id
+
+    // console.log('after delete');
+    // console.log(req.body)
         const newCpm = new cpmSchema(req.body);
         await newCpm.save();
-        console.log(newCpm)        
+
+        // console.log(newCpm)
+        
+        // console.log(newCpm._id);
+        
+        const user = await userSchema.findOne({ _id: user_id })
+        await user.updateOne({ $push: { cpm_id: newCpm._id } })
 
         res.status(200).json({ message: "CPM created successfully" })
     } catch (error) {
         res.status(400).json({ error })
     }
 }
+
+export const getCPM = async (req, res) => {
+    try {
+        const cpm = await cpmSchema.find()
+        res.status(200).json(cpm)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
+
+
 

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.56% </span>
+                <span class="strong">91.48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/41</span>
+                <span class='fraction'>43/47</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.56% </span>
+                <span class="strong">91.48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>40/41</span>
+                <span class='fraction'>43/47</span>
             </div>
         
             
@@ -153,8 +153,23 @@
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
 <a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
@@ -193,6 +208,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -239,22 +255,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const createFuelPrice = async (req, res) =&gt; {
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import FuelSchema from "../models/fuelquote.js";
+&nbsp;
+export const createFuelPrice = async (req, res) =&gt; {
     try{
         const{ gallon_requested, address1, address2, city, state, zipcode, date, suggested_price } = req.body
+&nbsp;
+        console.log(req.body)
 &nbsp;
         if (typeof gallon_requested !== "number") {
             return res.status(400).json({ message: "Gallons must be a number" })
         }
-&nbsp;
+        
         if (typeof address1 !== "string") {
             return res.status(400).json({ message: "Address 1 must be a string" })
         }
-&nbsp;
+        
         if (address2 !== undefined){
             if (typeof address2 !== "string") {
                 return res.status(400).json({ message: "Address 2 must be a string" })
@@ -264,7 +290,7 @@
         if (typeof city !== "string") {
             return res.status(400).json({ message: "City must be a string" })
         }
-&nbsp;
+        
         if (typeof state !== "string") {
             return res.status(400).json({ message: "State must be a string" })
         }
@@ -272,7 +298,7 @@
         if (typeof zipcode !== "string") {
             return res.status(400).json({ message: "Zipcode must be a string" })
         }
-&nbsp;
+        
         if (typeof date !== "string") {
             return res.status(400).json({ message: "Date must be a string" })
         }
@@ -283,21 +309,22 @@
         
         //check if missing fields
         if (gallon_requested === "" || address1 === "" || city === "" || state === "" || zipcode === "" || date === "" || suggested_price === "") {
+            console.log(gallon_requested, address1, city, state, zipcode, date, suggested_price);
             return res.status(400).json({ message: "Please fill out all fields" })
         }
-&nbsp;
+        
         //check if max length of address1 is less than 100
         if (address1.length &gt; 100) {
             return res.status(400).json({ message: "Address 1 must be less than 100 characters" })
         }
-&nbsp;
+        
         //check if max length of address2 is less than 100
         if (address2 !== undefined){
             <span class="missing-if-branch" title="else path not taken" >E</span>if (address2.length &gt; 100) {
                 return res.status(400).json({ message: "Address 2 must be less than 100 characters" })
             }
         }
-&nbsp;
+        
         //check if max length of city is less than 100
         if (city.length &gt; 100) {
             return res.status(400).json({ message: "City must be less than 100 characters" })
@@ -312,25 +339,31 @@
         if (zipcode.length &gt; 9 || zipcode.length &lt; 5) {
             return res.status(400).json({ message: "Zipcode must be less than 9 characters and greater than 5 characters" })
         }
-&nbsp;
+        
         //check if date is mm/dd/yyyy
         if (date.length !== 10) {
             return res.status(400).json({ message: "Date must be in mm/dd/yyyy format" })
         }
-&nbsp;
+        
         //check if min gallons requested is greater than 0
         if (gallon_requested &lt; 0) {
             return res.status(400).json({ message: "Gallons requested must be greater than 0" })
         }
-&nbsp;
+        
         //check if min suggested price is greater than 0
         if (suggested_price &lt; 0) {
             return res.status(400).json({ message: "Suggested price must be greater than 0" })
         }
-                
-        res.status(200).json({ message: "Fuel Price created successfully" })
+       
+        const newFuel = new FuelSchema(req.body);
+        await newFuel.save();
 &nbsp;
+<span class="cstat-no" title="statement not covered" >        console.log(newFuel)</span>
+        
+<span class="cstat-no" title="statement not covered" >        res.status(200).json({ message: "Fuel Price created successfully" })</span>
+        
     } catch (error) {
+<span class="cstat-no" title="statement not covered" >        console.log(error)</span>
 <span class="cstat-no" title="statement not covered" >        res.status(400).json({ error })</span>
     }
 }</pre></td></tr></table></pre>
@@ -340,7 +373,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-03T01:44:09.179Z
+                at 2023-04-24T21:39:05.923Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -6,14 +6,14 @@ import { useState } from "react";
 const FuelPrice = () => {
 
     const [fuelPrice, setFuelPrice] = useState({
-        gallon_requested: "",
+        gallon_requested: 0,
         address1: "",
         address2: "",
         city: "",
         state: "",
         zipcode: "",
         date:"",
-        suggested_price: ""
+        suggested_price: 0
     });
 
     const handleChange = (e) => {
@@ -23,11 +23,19 @@ const FuelPrice = () => {
         });
     };
 
+    const handleChangeInt = (e) => {
+        setFuelPrice({
+            ...fuelPrice,
+            [e.target.id]: parseInt(e.target.value)
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(fuelPrice);
+            console.log(typeof fuelPrice.date);
             const response = await axios.post("http://localhost:5500/api/fuelprice", fuelPrice);
+            console.log(response);
             console.log("in try");
         } catch (error) {
             console.log("in catch");
@@ -43,7 +51,7 @@ const FuelPrice = () => {
                         placeholder="Enter a number"
                         id="gallon_requested"
                         className="rInput"
-                        onChange={handleChange}
+                        onChange={handleChangeInt}
                         min={0}
                         required
                     />
@@ -155,21 +163,21 @@ const FuelPrice = () => {
                     required
                 />
             </label><br/>
-            {/* <label htmlFor="date">Select a date:
+            <label htmlFor="date">Select a date:
                 <input 
                         type="date" 
                         id="date"
                         onChange={handleChange}
                         name="date"
                     />
-            </label><br/> */}
+            </label><br/>
             <label htmlFor="suggested price">Suggested Price:
                 <input
                         type="Number"
                         placeholder=""
                         id="suggested_price"
                         className="rInput"
-                        onChange={handleChange}
+                        onChange={handleChangeInt}
                         min={0}
                         required
                     />

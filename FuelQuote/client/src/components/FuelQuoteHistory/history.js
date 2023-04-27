@@ -18,12 +18,12 @@ const Fuel = props => (
 export default class FuelQuoteHistory extends Component {
   constructor(props){
     super(props);
-    this.state = {fuels:[]};
+    this.state = {fuelPrice:[]};
   }
   componentDidMount() {
     axios.get('http://localhost:3000/history')
       .then(response => {
-        this.setState({fuels: response.data})
+        this.setState({fuelPrice: response.data})
       })
       .catch(error => {
         console.log(error);
@@ -31,7 +31,7 @@ export default class FuelQuoteHistory extends Component {
   }
   
   quoteList() {
-    return this.state.fuels.map(currentquote => {
+    return this.state.fuelPrice.map(currentquote => {
       return <Fuel quote={currentquote}/>;
     })
   }

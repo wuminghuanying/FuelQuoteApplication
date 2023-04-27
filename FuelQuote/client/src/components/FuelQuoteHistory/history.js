@@ -12,6 +12,7 @@ const Fuel = props => (
     <td>{props.fuel.zipcode}</td>
     <td>{props.fuel.date}</td>
     <td>{props.fuel.suggested_price}</td>
+    <td>{props.fuel.tot_price}</td>
   </tr>
 )
 
@@ -53,6 +54,7 @@ export default class FuelQuoteHistory extends Component {
             <th>Zip code</th>
             <th>Date</th>
             <th>Suggested price</th>
+            <th>Total price</th>
          </tr>
         </thead>
         <tbody>

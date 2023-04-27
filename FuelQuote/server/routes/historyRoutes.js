@@ -3,8 +3,9 @@ const router  = express.Router()
 let FuelSchema = require('../models/fuelquote');
 
 
-router.route('/').get((req, res) => {
-  FuelSchema.find()
+router.get('/', async(req, res) => {
+  
+  FuelSchema.find(customer_id)
     .then(fuels => res.json(fuels))
     .catch(err => res.status(400).json('Error: ' + err));
 });

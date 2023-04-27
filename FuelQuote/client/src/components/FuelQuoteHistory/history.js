@@ -4,23 +4,26 @@ import axios from 'axios';
 
 const Fuel = props => (
   <tr>
-    <td>{props.quote.gallon_requested}</td>
-    <td>{props.exercise.address1}</td>
-    <td>{props.exercise.address2}</td>
-    <td>{props.exercise.city}</td>
-    <td>{props.exercise.state}</td>
-    <td>{props.exercise.zipcode}</td>
-    <td>{props.exercise.date}</td>
-    <td>{props.exercise.suggested_price}</td>
+    <td>{props.fuel.gallon_requested}</td>
+    <td>{props.fuel.address1}</td>
+    <td>{props.fuel.address2}</td>
+    <td>{props.fuel.city}</td>
+    <td>{props.fuel.state}</td>
+    <td>{props.fuel.zipcode}</td>
+    <td>{props.fuel.date}</td>
+    <td>{props.fuel.suggested_price}</td>
   </tr>
 )
 
 export default class FuelQuoteHistory extends Component {
-  
+  constructor(props){
+    super(props);
+    this.state = {fuels:[]};
+  }
   componentDidMount() {
     axios.get('http://localhost:3000/history')
       .then(response => {
-        this.setState({quotes: response.data})
+        this.setState({fuels: response.data})
       })
       .catch(error => {
         console.log(error);
@@ -28,7 +31,7 @@ export default class FuelQuoteHistory extends Component {
   }
   
   quoteList() {
-    return this.state.quote.map(currentquote => {
+    return this.state.fuels.map(currentquote => {
       return <Fuel quote={currentquote}/>;
     })
   }
@@ -37,8 +40,8 @@ export default class FuelQuoteHistory extends Component {
   return(
 
     <div>  
-    <h3>Fuel Quote History</h3> 
-      <table width="100%" >
+    <h3 align="center">Fuel Quote History</h3> 
+      <table align="center">
         <thead className="form">
           <tr>
             <th>Gallons Requested</th>

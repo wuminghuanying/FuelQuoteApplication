@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     cpm_id: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: mongoose.Schema.Types.ObjectId,
     },
     fuelquote_id: {
         type: [mongoose.Schema.Types.ObjectId],

@@ -5,6 +5,9 @@ export const createCPM = async (req, res) => {
     try{
         const{name, address1, address2, city, state, zipcode, user_id } = req.body
 
+        console.log("in cpm " + req.body);
+        console.log(typeof zipcode);
+
         //check if name is a string
         if (typeof name !== "string") {
             return res.status(400).json({ message: "Name must be a string" })
@@ -33,7 +36,7 @@ export const createCPM = async (req, res) => {
         }
 
         //check if zipcode is a string
-        if (typeof zipcode !== "string") {
+        if (typeof zipcode !== "number") {
             return res.status(400).json({ message: "Zipcode must be a string" })
         }
         
@@ -88,9 +91,22 @@ export const createCPM = async (req, res) => {
         // console.log(newCpm._id);
         
         const user = await userSchema.findOne({ _id: user_id })
-        await user.updateOne({ $push: { cpm_id: newCpm._id } })
 
-        res.status(200).json({ message: "CPM created successfully" })
+        // console.log(user);
+
+        await user.updateOne({$set: {cpm_id: newCpm._id}})
+
+        res.status(200).json({
+            address1: newCpm.address1, 
+            address2: newCpm.address2, 
+            city: newCpm.city, 
+            state: newCpm.state, 
+            zipcode: newCpm.zipcode, 
+            user_id: newCpm.user_id, 
+            _id: newCpm._id,
+            userId: user._id
+        })
+
     } catch (error) {
         res.status(400).json({ error })
     }

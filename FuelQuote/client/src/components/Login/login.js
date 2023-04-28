@@ -1,17 +1,19 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import {useNavigate} from 'react-router-dom';
+import { AuthContext } from "../../context/AuthContext.js";
 import "./login.css";
 
 const Login = () => {
 
   const navigate = useNavigate();
-
   const [credentials, setCredentials] = useState({
     Username: "",
     Password: "",
   });
+
+  const { dispatch } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -21,21 +23,56 @@ const Login = () => {
     }));
   };
 
+  // const cpm = JSON.parse(localStorage.getItem("cpm"));
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // dispatch({ type: "LOGIN_START" });
+
     try {
       const response = await axios.post("http://localhost:5500/api/login", credentials);
-      console.log(response);
+      // console.log(response.data);
+
+      // dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
+      localStorage.setItem("user", JSON.stringify(response.data));
+
+      
+      
+      // console.log("df", response.data);
+
       if (response.status === 200) {
+    
+          // console.log("http://localhost:5500/api/getCPMById/"+user.cpm_id);
+          // console.log("ccpm", cpm);
+          const user = JSON.parse(localStorage.getItem("user"));
+
+          // console.log("http://localhost:5500/api/getCPMById/" + user.cpm_id);
+          const response = axios.get("http://localhost:5500/api/getCPMById/" + user.cpm_id)
+          .then((response) => {
+              // console.log("response", response.data);
+              localStorage.setItem("cpm", JSON.stringify(response.data));
+              // console.log("cpm", cpm);
+          })
+          .catch((error) => {
+              console.log("error", error);
+          });
+
+          // localStorage.setItem("cpm", JSON.stringify(response.data));
+          // console.log("cpm in if ", cpm);
+          
+        alert("Login Successful. Press OK to continue.");
         navigate("/");
       }
       else {
+        alert("Our server indicates that you have not set up your profile yet. Press OK to continue.");
         navigate("/cpm");
       }
-    } catch (error) {
-      if (error.response.status === 400) {
-        alert("Invalid username or password");
+    } catch (err) {
+      if (err.response.status === 400) {
+        alert("Invalid username or password. Please try again.");
       }
+      dispatch({ type: "LOGIN_FAILURE"});
     }
   };
 

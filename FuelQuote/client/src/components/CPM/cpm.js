@@ -9,14 +9,16 @@ const CPM = () => {
 
     const navigate = useNavigate();
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
     const [cpmInfo, setCpmInfo] = useState({
         name: "",
         address1: "",
         address2: "",
         city: "",
         state: "",
-        zipcode: "",
-        user_id: "6447442350809b8ef0ccc90f",
+        zipcode: 0,
+        user_id: user.user_id,
     });
 
     const handleChange = (e) => {
@@ -26,11 +28,22 @@ const CPM = () => {
         });
     };
 
+    const handleChangeInt = (e) => {
+        setCpmInfo({
+            ...cpmInfo,
+            [e.target.id]: parseInt(e.target.value)
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             console.log(cpmInfo);
             const response = await axios.post("http://localhost:5500/api/create", cpmInfo);
+
+            // console.log("response ", response.data);
+
+            localStorage.setItem("cpm", JSON.stringify(response.data));
             
             navigate("/fuelprice");
 
@@ -40,9 +53,13 @@ const CPM = () => {
         }
     };
 
+   
+
 
     return (
+        
         <div className="form">
+        
             <label htmlFor="fullname">Full Name:
                 <input
                     type="text"
@@ -157,7 +174,7 @@ const CPM = () => {
                     placeholder="zip code"
                     id="zipcode"
                     className="rInput"
-                    onChange={handleChange}
+                    onChange={handleChangeInt}
                     minLength= "5"
                     maxLength="9"
                     required

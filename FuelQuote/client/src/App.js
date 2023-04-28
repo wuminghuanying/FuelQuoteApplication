@@ -7,6 +7,7 @@ import LOGIN from './components/Login/login.js';
 import REGISTER from './components/Register/register.js';
 import HISTORY from './components/FuelQuoteHistory/history.js';
 import HOMEPAGE from './components/Homepage/HOMEPAGE';
+import Navbar from './components/Navbar/navbar.js';
 
 
 function App() {
@@ -14,7 +15,8 @@ function App() {
    
       
     <Router>
-      <Routes>
+      <Navbar/>
+      <Routes>        
         <Route path ="/" element={<HOMEPAGE/>}/>
         <Route  path="/fuelprice" element={<FuelPrice/>} />
         <Route  path="/cpm" element={<CPM/>} />

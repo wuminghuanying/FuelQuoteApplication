@@ -32,6 +32,10 @@ const FuelSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    total_price: {
+        type: Number,
+        required: true,
+    },
     customer_id: {
         type: mongoose.Schema.Types.ObjectId,
     }

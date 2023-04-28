@@ -77,14 +77,16 @@ export const login = async (req, res) => {
         if (!validPassword) {
             return res.status(400).json({ message: "Incorrect Password" })
         }
-        console.log(user.cpm_id);
-        
-        if(user.cpm_id.length === 0){
-            // console.log(user.name);
-            return res.status(201).json({ message: "Please fill out profile" })
-        }
 
-        return res.status(200).json({ message: "Login successful" })
+        console.log("user cpm id",user.cpm_id);
+        console.log("user id",user._id);
+        
+        if(user.cpm_id === undefined){
+            console.log("username: ", user.username);
+            return res.status(201).json({name: user.username, fuelquote_id: user.fuelquote_id, user_id: user._id, cpm_id: user.cpm_id})
+        }
+console.log("outtt");
+        return res.status(200).json({ name: user.username, fuelquote_id: user.fuelquote_id, user_id: user._id, cpm_id: user.cpm_id })
     } catch (error) {
         res.status(400).json({ message: "error" })
     }

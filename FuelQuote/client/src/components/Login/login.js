@@ -1,7 +1,7 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../context/AuthContext.js";
 import "./login.css";
 
@@ -13,8 +13,6 @@ const Login = () => {
     Password: "",
   });
 
-  const { dispatch } = useContext(AuthContext);
-
   const handleChange = (e) => {
     const { id, value } = e.target;
     setCredentials((prevCredentials) => ({
@@ -23,44 +21,24 @@ const Login = () => {
     }));
   };
 
-  // const cpm = JSON.parse(localStorage.getItem("cpm"));
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // dispatch({ type: "LOGIN_START" });
-
     try {
       const response = await axios.post("http://localhost:5500/api/login", credentials);
-      // console.log(response.data);
-
-      // dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
       localStorage.setItem("user", JSON.stringify(response.data));
 
-      
-      
-      // console.log("df", response.data);
-
       if (response.status === 200) {
-    
-          // console.log("http://localhost:5500/api/getCPMById/"+user.cpm_id);
-          // console.log("ccpm", cpm);
-          const user = JSON.parse(localStorage.getItem("user"));
+        const user = JSON.parse(localStorage.getItem("user"));
 
-          // console.log("http://localhost:5500/api/getCPMById/" + user.cpm_id);
-          const response = axios.get("http://localhost:5500/api/getCPMById/" + user.cpm_id)
+        const response = axios.get("http://localhost:5500/api/getCPMById/" + user.cpm_id)
           .then((response) => {
-              // console.log("response", response.data);
-              localStorage.setItem("cpm", JSON.stringify(response.data));
-              // console.log("cpm", cpm);
+            localStorage.setItem("cpm", JSON.stringify(response.data));
           })
           .catch((error) => {
-              console.log("error", error);
+            console.log("error", error);
           });
 
-          // localStorage.setItem("cpm", JSON.stringify(response.data));
-          // console.log("cpm in if ", cpm);
-          
         alert("Login Successful. Press OK to continue.");
         navigate("/");
       }
@@ -72,7 +50,6 @@ const Login = () => {
       if (err.response.status === 400) {
         alert("Invalid username or password. Please try again.");
       }
-      dispatch({ type: "LOGIN_FAILURE"});
     }
   };
 
@@ -110,7 +87,7 @@ const Login = () => {
 
       <button className="Login" onClick={handleLogin}>Login</button>
       <br />
-      <br />Don't have an account? 
+      <br />Don't have an account?
       <button
         className="Register"
         onClick={() => {

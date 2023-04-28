@@ -15,8 +15,8 @@ const FuelPrice = () => {
 
     const [cpmData, setCpmData] = useState({});
     const [fuelPriceData, setFuelPriceData] = useState({
-        suggested_price: null,
-        total_price: null
+        suggestedPrice: 0,
+        totalAmountDue: 0
     });
 
 
@@ -28,8 +28,8 @@ const FuelPrice = () => {
         state: cpm.state,
         zipcode: cpm.zipcode,
         date: "",
-        suggested_price: fuelPriceData.suggestedPrice,
-        total_price: fuelPriceData.totalAmountDue,
+        suggested_price: 0,
+        total_price: 0,
         user_id: user.user_id
     });
 
@@ -51,7 +51,9 @@ const FuelPrice = () => {
         e.preventDefault();
         try {
             const response = await axios.post("http://localhost:5500/api/fuelprice", fuelPrice);
+            alert('Congratulations! Your fuel quote has been submitted successfully!');
 
+            navigate('/');
         } catch (error) {
             console.log("in catch");
             console.log(error);
@@ -67,28 +69,13 @@ const FuelPrice = () => {
                 state: fuelPrice.state,
                 user_id: user.user_id
             })
-            console.log("res ", response.data);
-            setFuelPriceData({
+            setFuelPriceData(response.data);
+            setFuelPrice({
+                ...fuelPrice,
                 suggested_price: response.data.suggestedPrice,
                 total_price: response.data.totalAmountDue
             });
 
-            console.log("fp ", fuelPriceData);
-            // .then((response) => {
-            //     // console.log("res ", response.data.suggestedPrice);
-            //     setFuelPriceData({
-            //         suggested_price: response.data.suggestedPrice,
-            //         total_price: response.data.totalAmountDue
-            //     });
-            //     console.log("fp ", fuelPriceData);
-            // })
-            // .catch((error) => {
-            //     console.log("error", error);
-            // });
-
-            // do localstorage
-
-            
         } catch (error) {
             console.log("in catch");
             console.log(error);
@@ -143,8 +130,7 @@ const FuelPrice = () => {
             </label><br />
             <label htmlFor="address1">Delivery Address 1:
                 <input
-                    type="text"
-                    placeholder={cpmData.address1}
+                    type="hidden"
                     id="address1"
                     className="rInput"
                     onChange={handleChange}
@@ -152,24 +138,24 @@ const FuelPrice = () => {
                     readOnly
                     required
                 />
+                <span className="cpm">{" " + cpmData.address1}</span>
             </label><br />
 
             <label htmlFor="address2">Delivery Address 2:
                 <input
-                    type="text"
-                    placeholder={cpmData.address2}
+                    type="hidden"
                     id="address2"
                     onChange={handleChange}
                     className="rInput"
                     maxLength="100"
                     readOnly
                 />
+                <span className="cpm">{" " + cpmData.address2}</span>
             </label><br />
 
             <label htmlFor="City">City:
                 <input
-                    type="text"
-                    placeholder={cpmData.city}
+                    type="hidden"
                     id="city"
                     onChange={handleChange}
                     className="rInput"
@@ -177,6 +163,7 @@ const FuelPrice = () => {
                     readOnly
                     required
                 />
+                <span className="cpm">{" " + cpmData.city}</span>
             </label><br />
 
             <label htmlFor="State">State:
@@ -185,17 +172,16 @@ const FuelPrice = () => {
                     className="rInput"
                     onChange={handleChange}
                     id="state"
-                    placeholder={cpmData.state}
-                    type="text"
+                    type="hidden"
                     readOnly
                 >
                 </input>
+                <span className="cpm">{" " + cpmData.state}</span>
             </label><br />
 
             <label htmlFor="zipcode">Zip Code:
                 <input
-                    type="text"
-                    placeholder={cpmData.zipcode}
+                    type="hidden"
                     id="zipcode"
                     className="rInput"
                     onChange={handleChange}
@@ -204,6 +190,7 @@ const FuelPrice = () => {
                     readOnly
                     required
                 />
+                <span className="cpm">{" " + cpmData.zipcode}</span>
             </label><br />
             <label htmlFor="date">Select a date:
                 <input
@@ -214,28 +201,28 @@ const FuelPrice = () => {
                     name="date"
                 />
             </label><br /><br />
-            <label htmlFor="suggested price">Suggested Price:
+            <label htmlFor="suggested price">Suggested Price / Gallon: $
                 <input
-                    type="Number"
-                    placeholder={fuelPriceData ? "Press Get Quote to get a price" : fuelPriceData.suggested_price}
+                    type="hidden"
                     id="suggested_price"
                     className="rInput"
                     readOnly
                     min={0}
                     required
                 />
+                <span className="cpm-1">{" " + fuelPriceData.suggestedPrice}</span>
             </label><br /><br />
 
-            <label htmlFor="total price">Total Price:
+            <label htmlFor="total price">Total Price: $
                 <input
-                    type="Number"
-                    placeholder={fuelPriceData ? "Press Get Quote to get a price" : fuelPriceData.total_price}
-                    id="suggested_price"
+                    type="hidden"
+                    id="total_price"
                     className="rInput"
                     readOnly
                     min={0}
                     required
                 />
+                <span className="cpm-1">{" " + fuelPriceData.totalAmountDue}</span>
             </label><br /><br />
 
             <button type="submit"
@@ -245,7 +232,7 @@ const FuelPrice = () => {
             >
                 Get Quote</button>
 
-                <button type="submit"
+            <button type="submit"
                 className="calculate"
                 onClick={handleSubmit}
                 disabled={fuelPrice.gallon_requested === 0 || fuelPrice.address1 === "" || fuelPrice.city === "" || fuelPrice.state === "" || fuelPrice.zipcode === "" || fuelPrice.date === "" || fuelPrice.suggested_price === 0 || fuelPrice.total_price === 0}

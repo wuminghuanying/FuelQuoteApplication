@@ -1,13 +1,14 @@
-import express from "express"
-const router  = express.Router()
-let FuelSchema = require('../models/fuelquote');
+import FuelSchema from "../models/fuelquote.js";
+import userSchema from "../models/user.js";
 
+export const getFuelHistory = async (req, res) => {
+  try {
+    const user = await userSchema.findById(req.params.id)
+    const fuel = await FuelSchema.find({ _id: { $in: user.fuelquote_id } })
 
-router.get('/', async(req, res) => {
-  
-  FuelSchema.find(customer_id)
-    .then(fuels => res.json(fuels))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-export default router
+    res.status(200).json(fuel)
+  }
+  catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}

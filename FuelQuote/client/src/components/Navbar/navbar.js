@@ -5,11 +5,9 @@ import "./navbar.css";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
-  // const [time, setTime] = useState(new Date());
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
-    console.log("navbar", loggedInUser);
     if (loggedInUser) {
       setUser(loggedInUser);
     }
@@ -31,7 +29,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <a href="/">
-        <h1 className="title">FuelQuote</h1>
+        <h1 className="title-navbar">FuelQuote</h1>
       </a>
       <div>
         {user ? (
@@ -57,14 +55,6 @@ const Navbar = () => {
               >
                 Fuel Price
               </button>
-              {/* <button
-                className="nav-button"
-                onClick={() => {
-                  navigate("/cpm");
-                }}
-              >
-                CPM
-              </button> */}
               <button
                 className="nav-button"
                 onClick={() => {

@@ -1,69 +1,61 @@
 import React, {Component}  from "react";
-import "./history.css"
 import axios from 'axios';
+import { useState, useEffect } from "react";
+import "./history.css"
 
-const Fuel = props => (
-  <tr>
-    <td>{props.fuel.gallon_requested}</td>
-    <td>{props.fuel.address1}</td>
-    <td>{props.fuel.address2}</td>
-    <td>{props.fuel.city}</td>
-    <td>{props.fuel.state}</td>
-    <td>{props.fuel.zipcode}</td>
-    <td>{props.fuel.date}</td>
-    <td>{props.fuel.suggested_price}</td>
-    <td>{props.fuel.tot_price}</td>
-  </tr>
-)
+const FuelQuoteHistory = () => {
 
-export default class FuelQuoteHistory extends Component {
-  constructor(props){
-    super(props);
-    this.state = {fuelPrice:[]};
-  }
-  componentDidMount() {
-    axios.get('http://localhost:3000/history')
-      .then(response => {
-        this.setState({fuelPrice: response.data})
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
-  
-  quoteList() {
-    return this.state.fuelPrice.map(currentquote => {
-      return <Fuel quote={currentquote}/>;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [history, setHistory] = useState([]);
+
+  try {
+    const response = axios.get("http://localhost:5500/api/history/" + user.user_id)
+    .then(response => {
+      setHistory(response.data);
+    })
+    .catch(error => {
+      console.log(error);
     })
   }
+  catch (error) {
+    console.log(error);
+  }
 
-  render() {
   return(
-
-    <div>  
-    <h3 align="center">Fuel Quote History</h3> 
-      <table align="center">
-        <thead className="form">
+    <div className="history">
+      <p className="title">Fuel Quote History</p>
+      <table className="table">
+        <thead className="thead">
           <tr>
             <th>Gallons Requested</th>
             <th>Address 1</th>
             <th>Address 2</th>
-            <th>Country</th>
             <th>City</th>
             <th>State</th>
             <th>Zip code</th>
             <th>Date</th>
             <th>Suggested price</th>
             <th>Total price</th>
-         </tr>
+          </tr>
         </thead>
-        <tbody>
-          { this.quoteList() }
+        <tbody >
+          {history.map((fuel) => (
+            <tr>
+              <td>{fuel.gallon_requested}</td>
+              <td>{fuel.address1}</td>
+              <td>{fuel.address2}</td>
+              <td>{fuel.city}</td>
+              <td>{fuel.state}</td>
+              <td>{fuel.zipcode}</td>
+              <td>{fuel.date}</td>
+              <td>{"$" + fuel.suggested_price}</td>
+              <td>{"$" + fuel.total_price}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
-
     </div>
   )
 }
-}
-//export default history;
+
+export default FuelQuoteHistory;

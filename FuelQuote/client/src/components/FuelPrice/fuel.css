@@ -21,6 +21,18 @@ label {
     display: block;
     margin-bottom: 10px;
   }
+
+  .cpm {
+    font-size: 1.0em;
+    color: #277c9e;
+    font-weight: normal;
+  }
+
+  .cpm-1 {
+    font-size: 1.0em;
+    color: #447d25;
+    font-weight: normal;
+  }
   
   input[type="date"] {
     border: 1px solid #ccc;

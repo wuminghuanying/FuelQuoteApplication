@@ -2,6 +2,7 @@ import express from "express";
 import cpmRoutes from "./routes/cpmRoutes.js";
 import fuelpriceRoutes from "./routes/fuelpriceRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import historyRoutes from "./routes/historyRoutes.js";
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cors from 'cors'
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use("/api", cpmRoutes);
 app.use("/api", fuelpriceRoutes);
 app.use("/api", userRoutes);
+app.use("/api", historyRoutes)
 
 
 if (process.env.NODE_ENV !== "test") {

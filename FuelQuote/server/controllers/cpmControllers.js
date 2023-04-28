@@ -1,135 +1,126 @@
-import cpmSchema from "../models/cpm.js"
-import userSchema from "../models/user.js"
+import cpmSchema from "../models/cpm.js";
+import userSchema from "../models/user.js";
 
 export const createCPM = async (req, res) => {
-    try{
-        const{name, address1, address2, city, state, zipcode, user_id } = req.body
+    try {
+        const { name, address1, address2, city, state, zipcode, user_id } =
+            req.body;
 
-        console.log("in cpm " + req.body);
-        console.log(typeof zipcode);
-
-        //check if name is a string
         if (typeof name !== "string") {
-            return res.status(400).json({ message: "Name must be a string" })
+            return res.status(400).json({ message: "Name must be a string" });
         }
 
-        //check if address1 is a string
         if (typeof address1 !== "string") {
-            return res.status(400).json({ message: "Address 1 must be a string" })
+            return res.status(400).json({ message: "Address 1 must be a string" });
         }
 
-        //check if address2 is a string
-        if (address2 !== undefined){
+        if (address2 !== undefined) {
             if (typeof address2 !== "string") {
-                return res.status(400).json({ message: "Address 2 must be a string" })
+                return res.status(400).json({ message: "Address 2 must be a string" });
             }
         }
 
-        //check if city is a string
         if (typeof city !== "string") {
-            return res.status(400).json({ message: "City must be a string" })
+            return res.status(400).json({ message: "City must be a string" });
         }
 
-        //check if state is a string
         if (typeof state !== "string") {
-            return res.status(400).json({ message: "State must be a string" })
+            return res.status(400).json({ message: "State must be a string" });
         }
 
-        //check if zipcode is a string
         if (typeof zipcode !== "number") {
-            return res.status(400).json({ message: "Zipcode must be a string" })
+            return res.status(400).json({ message: "Zipcode must be a string" });
         }
-        
-        //check if missing fields
-        if (name === "" || address1 === "" || city === "" || state === "" || zipcode === "") {
-            return res.status(400).json({ message: "Please fill out all fields" })
+
+        if (
+            name === "" ||
+            address1 === "" ||
+            city === "" ||
+            state === "" ||
+            zipcode === ""
+        ) {
+            return res.status(400).json({ message: "Please fill out all fields" });
         }
-        
-        //check if max length of name is less than 50
+
         if (name.length > 50) {
-            return res.status(400).json({ message: "Name must be less than 50 characters" })
+            return res
+                .status(400)
+                .json({ message: "Name must be less than 50 characters" });
         }
 
-        //check if max length of address1 is less than 100
         if (address1.length > 100) {
-            return res.status(400).json({ message: "Address 1 must be less than 100 characters" })
+            return res
+                .status(400)
+                .json({ message: "Address 1 must be less than 100 characters" });
         }
 
-        //check if max length of address2 is less than 100
-        if (address2 !== undefined){
+        if (address2 !== undefined) {
             if (address2.length > 100) {
-                return res.status(400).json({ message: "Address 2 must be less than 100 characters" })
+                return res
+                    .status(400)
+                    .json({ message: "Address 2 must be less than 100 characters" });
             }
         }
 
-        //check if max length of city is less than 100
         if (city.length > 100) {
-            return res.status(400).json({ message: "City must be less than 100 characters" })
+            return res
+                .status(400)
+                .json({ message: "City must be less than 100 characters" });
         }
-        
-        //check if max length of state is less than 2
-        if (state.length > 2) {
-            return res.status(400).json({ message: "State must be less than 2 characters" })
-        }
-        
-        //check if max length of zipcode is less than 5 and greater than 9
-        if (zipcode.length > 9 || zipcode.length < 5) {
-            return res.status(400).json({ message: "Zipcode must be less than 9 characters and greater than 5 characters" })
-        }
-        
-    // console.log(req.body)
-    // remove user_id from req.body
-    delete req.body.user_id
 
-    // console.log('after delete');
-    // console.log(req.body)
+        if (state.length > 2) {
+            return res
+                .status(400)
+                .json({ message: "State must be less than 2 characters" });
+        }
+
+        if (zipcode.length > 9 || zipcode.length < 5) {
+            return res
+                .status(400)
+                .json({
+                    message:
+                        "Zipcode must be less than 9 characters and greater than 5 characters",
+                });
+        }
+
+        delete req.body.user_id;
+
         const newCpm = new cpmSchema(req.body);
         await newCpm.save();
 
-        // console.log(newCpm)
-        
-        // console.log(newCpm._id);
-        
-        const user = await userSchema.findOne({ _id: user_id })
+        const user = await userSchema.findOne({ _id: user_id });
 
-        // console.log(user);
-
-        await user.updateOne({$set: {cpm_id: newCpm._id}})
+        await user.updateOne({ $set: { cpm_id: newCpm._id } });
 
         res.status(200).json({
-            address1: newCpm.address1, 
-            address2: newCpm.address2, 
-            city: newCpm.city, 
-            state: newCpm.state, 
-            zipcode: newCpm.zipcode, 
-            user_id: newCpm.user_id, 
+            address1: newCpm.address1,
+            address2: newCpm.address2,
+            city: newCpm.city,
+            state: newCpm.state,
+            zipcode: newCpm.zipcode,
+            user_id: newCpm.user_id,
             _id: newCpm._id,
-            userId: user._id
-        })
-
+            userId: user._id,
+        });
     } catch (error) {
-        res.status(400).json({ error })
+        res.status(400).json({ error });
     }
-}
+};
 
 export const getCPM = async (req, res) => {
     try {
-        const cpm = await cpmSchema.find()
-        res.status(200).json(cpm)
+        const cpm = await cpmSchema.find();
+        res.status(200).json(cpm);
     } catch (error) {
-        res.status(404).json({ message: error.message })
+        res.status(404).json({ message: error.message });
     }
-}
+};
 
 export const getCPMById = async (req, res) => {
     try {
-        const cpm = await cpmSchema.findOne({ _id: req.params.id })
-        res.status(200).json(cpm)
+        const cpm = await cpmSchema.findOne({ _id: req.params.id });
+        res.status(200).json(cpm);
     } catch (error) {
-        res.status(404).json({ message: error.message })
+        res.status(404).json({ message: error.message });
     }
-}
-
-
-
-
+};

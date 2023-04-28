@@ -2,17 +2,15 @@ import userSchema from "../models/user.js"
 import bcrypt from "bcryptjs"
 
 export const createRegister = async (req, res) => {
-    try{
-        const{ Username, Password} = req.body
+    try {
+        const { Username, Password } = req.body
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(Password, salt)
 
-        //check if Username is a string
         if (typeof Username !== "string") {
             return res.status(400).json({ message: "Username must be a string" })
         }
 
-        //check if Password is a string
         if (typeof Password !== "string") {
             return res.status(400).json({ message: "Password must be a string" })
         }
@@ -21,7 +19,6 @@ export const createRegister = async (req, res) => {
             return res.status(400).json({ message: "Please fill out all fields" })
         }
 
-        //check if Username is already in database
         const users = await userSchema.findOne({ username: Username })
         if (users) {
             return res.status(400).json({ message: "Username already exists" })
@@ -33,7 +30,7 @@ export const createRegister = async (req, res) => {
         })
 
         await newUser.save()
-                
+
         res.status(200).json({ message: "Account created successfully" })
     } catch (error) {
         res.status(400).json({ message: "error" })
@@ -54,12 +51,10 @@ export const login = async (req, res) => {
     try {
         const { Username, Password } = req.body
 
-        //check if Username is a string
         if (typeof Username !== "string") {
             return res.status(400).json({ message: "Username must be a string" })
         }
 
-        //check if Password is a string
         if (typeof Password !== "string") {
             return res.status(400).json({ message: "Password must be a string" })
         }
@@ -78,14 +73,10 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: "Incorrect Password" })
         }
 
-        console.log("user cpm id",user.cpm_id);
-        console.log("user id",user._id);
-        
-        if(user.cpm_id === undefined){
-            console.log("username: ", user.username);
-            return res.status(201).json({name: user.username, fuelquote_id: user.fuelquote_id, user_id: user._id, cpm_id: user.cpm_id})
+        if (user.cpm_id === undefined) {
+            return res.status(201).json({ name: user.username, fuelquote_id: user.fuelquote_id, user_id: user._id, cpm_id: user.cpm_id })
         }
-console.log("outtt");
+
         return res.status(200).json({ name: user.username, fuelquote_id: user.fuelquote_id, user_id: user._id, cpm_id: user.cpm_id })
     } catch (error) {
         res.status(400).json({ message: "error" })

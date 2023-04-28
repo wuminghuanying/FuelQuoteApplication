@@ -15,10 +15,11 @@ const pricingModule = (gallonsRequested, state, history) => {
 
   const totalAmountDue = gallonsRequested * suggestedPrice;
 
-    return {
-        suggestedPrice,
-        totalAmountDue
-    }
+
+  return {
+      suggestedPrice,
+      totalAmountDue
+  }
 }
 
 export default pricingModule;
